@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Login</title>
-<link href="/login.css" rel="stylesheet">
+<link href="./login.css" rel="stylesheet">
 </head>
 <body>
     <form action="loginpage" id="form" method="post">
@@ -13,10 +13,9 @@
     
         <label>Enter Your Password</label><br>
         <input class="input" type="password" placeholder="Enter Your Password" name="pass"><br>
-    
         <input class="btn" type="submit" value="LogIn">
-    <a href="registration">Create New Account</a><a href="forgotpassword">Forgot Password</a>
-	<span id="msg" th:text="${msg}"></span>
+    	<a href="registration">Create New Account</a><a href="forgotpassword">Forgot Password</a>
+		<span id="msg" th:text="${msg}"></span>
     </form>
 </body>
 </html>

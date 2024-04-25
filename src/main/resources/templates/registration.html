@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Registration</title>
-<link href="/registration.css" rel="stylesheet">
+<link href="./registration.css" rel="stylesheet">
 </head>
 <body>
 	<div id="form">
@@ -18,8 +18,12 @@
 				<input class="input" type="email" placeholder="Enter Your EmailID" name="emailid" />
 			</div>
 			<div>
+				<label id="amount">Enter Opening Balance</label> 
+				<input class="input" type="number" placeholder="Enter Amount" name="amount">
+			</div>
+			<div>
 				<label id="dob">Enter Your DOB</label> 
-				<input type="date" id="" placeholder="Enter Date of Birth" name="dateofbirth">
+				<input type="date" placeholder="Enter Date of Birth" name="dateofbirth">
 			</div>
 			<div>		
 				<label id="gender">Select Your Gender</label>

@@ -32,7 +32,7 @@ public class BankController {
 	@Autowired
 	TransactionDAO transactionDAO;
 	
-	@GetMapping("/home")
+	@GetMapping("/homee")
 	public String homePage() {
 		return "homepage";
 	}
@@ -73,6 +73,7 @@ public class BankController {
 			httpSession.setAttribute("loginInfoAct", info.getAccountnumber());
 			httpSession.setAttribute("loginInfoid", info.getId());
 			httpSession.setAttribute("loginInfoEmail", info.getEmailid());
+			model.addAttribute("user", info);
 			return "HomePage";
 		} else {
 			model.addAttribute("msg", "Invalid Details");
@@ -159,7 +160,7 @@ public class BankController {
 		return "debitamount";
 	}
 
-	@GetMapping("/transaction1")
+	@GetMapping("/performdebit")
 	public String transaction1(String accountnumber, String amount, Model model, HttpServletRequest req) {
 		HttpSession httpSession = req.getSession();
 		String senderActNo = (String) httpSession.getAttribute("loginInfoAct");
@@ -199,7 +200,7 @@ public class BankController {
 		return "creditamount";
 	}
 
-	@RequestMapping("/transaction2")
+	@RequestMapping("/performcredit")
 	public String transaction2(String acctNo, String amount, Model model, HttpServletRequest req) {
 		HttpSession httpSession = req.getSession();
 		int id = (int) httpSession.getAttribute("loginInfoid");

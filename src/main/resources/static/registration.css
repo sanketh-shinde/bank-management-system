@@ -10,11 +10,12 @@ body {
 	background-image: url("/image/banking2.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
-	font-family: 'Roboto', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-family: 'Roboto';
 }
 
 h1 {
 	color: white;
+	text-transform: uppercase;
 }
 
 #form {
@@ -40,45 +41,48 @@ h1 {
 	margin-bottom: 12px;
 	background: transparent;
 	border-radius: 15px;
-	border: 1px solid black;
+	border: 1px solid white;
 }
 
 .input::placeholder {
-	color: white;
-	font-size: 15px;
-}
-
-.input:hover::placeholder {
 	color: black;
 	font-size: 15px;
-	text-shadow: none;
 }
 
-.input:hover {
-	background: white;
-	text-shadow: 1px 1px 2px black;
+.input:focus {
+	background-color: white;
+	color: black;
+	font-size: 15px;
 }
 
 label {
 	text-transform: uppercase;
 	color: white;
 	text-shadow: 1px 1px 2px black;
+	margin-right: 130px;
+	margin-bottom: 15px;
+}
+
+input[type="date"] {
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid black;
 }
 
 .btn {
     height: 40px;
 	width: 250px;
-	background-color: hsl(120,100%,50%);
-    margin-top: 10prgb(128, 255, 0);
+	background-color: #04AA6D;
     margin-bottom: 10px;
     border-radius: 15px;
-    border: 1px solid black;
+    color: white;
+    border: none;
     font-size: 20px;
+	transition: ease-in 0.5s;
 }
 
 .btn:hover {
-	background: transparent;
-	transition: ease-in 0.5s;
+	background: #04aa1a ;
 	cursor: pointer;
 }
 
