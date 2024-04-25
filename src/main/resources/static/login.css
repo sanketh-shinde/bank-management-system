@@ -1,0 +1,100 @@
+@charset "ISO-8859-1";
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+body {
+	background-image: url("/image/banking2.jpg");
+	background-size:cover;
+	background-repeat:no-repeat;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 50px;
+    border-radius: 10px;
+    border: 1px solid white;
+    box-shadow: 3px 3px 10px black;
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    font-size: 30px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-transform: capitalize;
+    color: white;
+    margin: 0 0 15px 0;
+}
+
+.input {
+	height: 40px;
+	width: 250px;
+	text-align: center;
+    margin-top: 4px;
+	margin-bottom: 12px;
+	background: transparent;
+	border-radius: 15px;
+	border: 1px solid black;
+}
+
+.input::placeholder {
+	color: white;
+	font-size: 15px;
+}
+
+.input:hover::placeholder {
+	color: black;
+	font-size: 15px;
+	text-shadow: none;
+}
+
+.input:hover {
+	background: white;
+	text-shadow: 1px 1px 2px black;
+}
+
+label {
+	text-transform: uppercase;
+	font-size: 30px;
+	font-family: 'Roboto', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	color: white;
+	text-shadow: 1px 1px 2px black;
+}
+
+.btn {
+    height: 30px;
+	width: 250px;
+	background-color: hsl(120,100%,50%);
+    margin-top: 10prgb(128, 255, 0);
+    margin-bottom: 10px;
+    border-radius: 15px;
+    border: 1px solid black;
+    font-size: 20px;
+}
+
+.btn:hover {
+	background: transparent;
+	transition: ease-in 0.5s;
+	cursor: pointer;
+}
+
+a {
+    font-style: italic;
+    padding: 10px;
+}
+
+a:hover {
+	color: hsl(218.5,79.2%,66.1%);
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Registration</title>
+<link href="/registration.css" rel="stylesheet">
+</head>
+<body>
+	<div id="form">
+		<h1>Create an Account</h1>
+		<form action="registrationpage">
+			<div>
+				<input class="input" placeholder="Enter Your First Name" id="first" name="firstname" /> 
+				<input class="input" placeholder="Enter Your Last Name" id="last" name="lastname" />
+			</div>
+			<div>
+				<input class="input" type="number" placeholder="Enter Your Age" name="age" /> 
+				<input class="input" type="email" placeholder="Enter Your EmailID" name="emailid" />
+			</div>
+			<div>
+				<label id="dob">Enter Your DOB</label> 
+				<input type="date" id="" placeholder="Enter Date of Birth" name="dateofbirth">
+			</div>
+			<div>		
+				<label id="gender">Select Your Gender</label>
+				<input type="radio" name="gender" value="Male" />Male
+				<input type="radio" name="gender" value="Female" />Female
+			</div>
+			<div>
+				<input class="input" type="number" placeholder="Enter Your Aadhar" name="aadhar">
+				<input class="input" placeholder="Enter Your Address" name="address">
+			</div>
+			<div>
+				<input class="input" placeholder="Enter Your Mobile Number" name="mobilenumber">
+				<input class="input" type="password" placeholder="Enter Your Password" name="password">
+			</div>
+			<input class="btn" type="submit" value="Create Account" />
+			<input class="btn" type="reset" value="Cancel" /> 
+		</form>
+		<a href="/login">
+			<button class="btn">SIGN IN</button>
+		</a>
+	</div>
+</body>
+</html>
