@@ -1,17 +1,17 @@
-package com.sanketh.bms.dao;
+package com.sanketh.bms.services;
 
 import java.sql.Date;
 
-import com.sanketh.bms.entities.Customer;
+import com.sanketh.bms.entities.Account;
 
-public interface CustomerDAO {
-	Customer registration(Customer customerDetails);
+public interface AccountService {
+	Account registration(Account account);
 
-	Customer customerLogin(String emailidormob, String password);
+	Account accountLogin(String emailidOrMobile, String password);
 
-	Customer getDetailsByEmailIdAndPassword(String emailId, String password);
+	Account getDetailsByEmailIdAndPassword(String emailId, String password);
 
-	Customer getDetailsByAccoutnumber(String actNo);
+	Account getDetailsByAccoutNumber(String accountNumber);
 
-	Customer passwordUpdation(String emailorpassword, Date date);
+	Account passwordUpdation(String emailIdOrPassword, Date date);
 }

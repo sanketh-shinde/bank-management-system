@@ -1,4 +1,4 @@
-package com.sanketh.bms.dao;
+package com.sanketh.bms.services;
 
 import java.sql.Date;
 import java.util.List;
@@ -10,7 +10,7 @@ import com.sanketh.bms.entities.Transaction;
 import com.sanketh.bms.repository.TransactionRepository;
 
 @Component
-public class TransactionDAOImpl implements TransactionDAO {
+public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	TransactionRepository transactionRepository;
@@ -22,8 +22,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 	@Override
 	public List<Transaction> findbyIdandTransactionDetails(int id, Date from, Date to) {
-		return transactionRepository
-				.findByCustomeridAndTransactiondateGreaterThanEqualAndTransactiondateLessThanEqual(id, from, to);
+		return transactionRepository.findByCustomerIdAndTransactionDateGreaterThanEqualAndTransactionDateLessThanEqual(id, from, to);
 	}
 
 }

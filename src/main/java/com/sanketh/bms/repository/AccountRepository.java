@@ -5,17 +5,17 @@ import java.sql.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.sanketh.bms.entities.Customer;
+import com.sanketh.bms.entities.Account;
 
-public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+public interface AccountRepository extends JpaRepository<Account, Integer> {
 
-	@Query("select customerinfo from Customer customerinfo where (customerinfo.emailid=?1 or customerinfo.mobilenumber=?2) and customerinfo.password=?3")
-	Customer findByEmailidOrMobilenumberAndPassword(String emailid, String mobilenumber, String password);
+	@Query("select account from Account account where (account.emailId=?1 or account.mobileNumber=?2) and account.password=?3")
+	Account findByEmailIdOrMobileNumberAndPassword(String emailId, String mobileNumber, String password);
 
-	Customer readByEmailidAndPassword(String email, String password);
+	Account findByEmailIdAndPassword(String emailId, String password);
 
-	Customer getByAccountnumber(String accountnumber);
+	Account findByAccountNumber(String accountnumber);
 
-	Customer findByEmailidOrMobilenumberAndDateofbirth(String emailid, String mobilenumber, Date dateofbirth);
+	Account findByEmailIdOrMobileNumberAndDateOfBirth(String emailId, String mobileNumber, Date dateOfBirth);
 
 }

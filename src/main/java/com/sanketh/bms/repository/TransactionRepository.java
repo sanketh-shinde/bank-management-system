@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.sanketh.bms.entities.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-	List<Transaction> findByCustomeridAndTransactiondateGreaterThanEqualAndTransactiondateLessThanEqual(int id,
-			Date from, Date to);
+	List<Transaction> findByCustomerIdAndTransactionDateGreaterThanEqualAndTransactionDateLessThanEqual(Integer id, Date from, Date to);
 }

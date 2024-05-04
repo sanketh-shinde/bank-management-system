@@ -7,78 +7,68 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.sanketh.bms.dao.CustomerDAO;
-import com.sanketh.bms.dao.TransactionDAO;
-import com.sanketh.bms.entities.Customer;
+import com.sanketh.bms.entities.Account;
 import com.sanketh.bms.entities.Transaction;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import com.sanketh.bms.services.AccountService;
+import com.sanketh.bms.services.TransactionService;
 
 @Controller
+@SessionAttributes(names = {"account", "otp"})
 public class BankController {
 
-	@Autowired
-	CustomerDAO customerDAO;
-
-	@Autowired
-	TransactionDAO transactionDAO;
+	private AccountService accountService;
 	
-	@GetMapping("/homee")
-	public String homePage() {
-		return "homepage";
+	private TransactionService transactionService;
+	
+	public BankController(AccountService accountService, TransactionService transactionService) {
+		this.accountService = accountService;
+		this.transactionService = transactionService;
 	}
 
-	@RequestMapping("/registration")
+	@GetMapping("/registration")
 	public String registration() {
 		return "registration";
 	}
 
-	@RequestMapping("/registrationpage")
-	public String registrationPage(Customer customerDetails) {
+	@PostMapping("/registrationpage")
+	public String showRegistrationPage(Account account) {
 		Random random = new Random();
 		long accountNo = random.nextLong(100000000000l);
 		if (accountNo < 10000000000l) {
 			accountNo += 10000000000l;
 		}
 		String actNo = Long.toString(accountNo);
-		customerDetails.setAccountnumber(actNo);
-		Customer customer = customerDAO.registration(customerDetails);
-		if (customer.getId() != null) {
-			return "login";
+		account.setAccountNumber(actNo);
+		Account registerdAccount = this.accountService.registration(account);
+		if (registerdAccount.getId() != null) {
+			return "index";
 		} else {
 			return "registration";
 		}
 	}
 
-	@RequestMapping("/login")
-	public String customerLoginPage() {
-		return "login";
-	}
-
 	@PostMapping("/loginpage")
-	public String customerlogin(@RequestParam("mailormob") String emailidOrMobile,
-			@RequestParam("pass") String password, Model model, HttpServletRequest req) {
-		HttpSession httpSession = req.getSession();
-		Customer info = customerDAO.customerLogin(emailidOrMobile, password);
-		if (info != null) {
-			httpSession.setAttribute("loginInfoAct", info.getAccountnumber());
-			httpSession.setAttribute("loginInfoid", info.getId());
-			httpSession.setAttribute("loginInfoEmail", info.getEmailid());
-			model.addAttribute("user", info);
-			return "HomePage";
+	public String customerlogin(String emailidOrMobile, String password, Model model) {
+		Account account = this.accountService.accountLogin(emailidOrMobile, password);
+		if (account != null) {
+			model.addAttribute("account", account);
+			return "homepage";
 		} else {
-			model.addAttribute("msg", "Invalid Details");
-			return "login";
+			model.addAttribute("message", "Invalid Details");
+			return "index";
 		}
+	}
+	
+	@GetMapping("/home")
+	public String showHomePage(Model model) {
+		return "homepage";
 	}
 
 	@GetMapping("/forgotpassword")
@@ -86,50 +76,45 @@ public class BankController {
 		return "forgotpassword";
 	}
 
-	@RequestMapping("/update")
+	@PostMapping("/update")
 	public String updatePassword(String emp, Date dob, String newpassword, String confirmpassword, Model model) {
 		if (newpassword.equals(confirmpassword)) {
-			Customer updation = customerDAO.passwordUpdation(emp, dob);
-			if (updation != null) {
-				updation.setPassword(newpassword);
-				Customer cust = customerDAO.registration(updation);
-				return "login";
+			Account updatedAccount = this.accountService.passwordUpdation(emp, dob);
+			if (updatedAccount != null) {
+				updatedAccount.setPassword(newpassword);
+				this.accountService.registration(updatedAccount);
+				return "index";
 			} else {
-				model.addAttribute("msg", "Invalid Details");
+				model.addAttribute("message", "Invalid Details");
 				return "forgotpassword";
 			}
 		} else {
-			model.addAttribute("msg", "Invalid Password");
+			model.addAttribute("message", "Invalid Password");
 			return "forgotpassword";
 		}
 	}
 	
 	@GetMapping("/checkbalance")
-	public String checkbalance(Model model, HttpServletRequest req) {
-		HttpSession session = req.getSession();
+	public String checkbalance(Model model) {
 		Random random = new Random();
 		int otp = random.nextInt(10000);
 		if (otp < 1000) {
 			otp += 1000;
 		}
 		model.addAttribute("otp", otp);
-		session.setAttribute("sesOTP", otp);
-		return "checkingbalance";
+		model.addAttribute("account");
+		return "checkbalance";
 	}
 
-	@GetMapping("/userchecking")
-	public String fetchingDataforcheckbalance(int userotp, String userpassword, HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		int otp = (int) session.getAttribute("sesOTP");
-		String emaill = (String) session.getAttribute("loginInfoEmail");
-		if (otp == userotp) {
-			Customer customer = customerDAO.getDetailsByEmailIdAndPassword(emaill, userpassword);
-			if (customer != null) {
-				model.addAttribute("c1d", "Customer Details");
-				model.addAttribute("c1act", "Account Number :    " + customer.getAccountnumber());
-				model.addAttribute("c1n",
-						"Customer Name :     " + customer.getFirstname() + " " + customer.getLastname());
-				model.addAttribute("c1amount", "Balance :    " + customer.getAmount());
+	@PostMapping("/processcheckbalance")
+	public String fetchingDataforcheckbalance(@RequestParam int userOTP,@RequestParam String userPassword, Model model) {
+		Account account = (Account) model.getAttribute("account");
+		System.out.println("account model: " + account);
+		Integer otp = (Integer) model.getAttribute("otp");
+		if (otp == userOTP) {
+			account = this.accountService.getDetailsByEmailIdAndPassword(account.getEmailId(), userPassword);
+			System.out.println("after: " + account);
+			if (account != null) {
 				return "userinfo";
 			} else {
 				Random random = new Random();
@@ -137,10 +122,8 @@ public class BankController {
 				if (otp < 1000) {
 					otp += 1000;
 				}
-				model.addAttribute("otp", otp);
-				session.setAttribute("sesOTP", otp);
-				model.addAttribute("mssg", "Invalid Password");
-				return "checkingbalance";
+				model.addAttribute("message", "Invalid Password");
+				return "checkbalance";
 			}
 		} else {
 			Random random = new Random();
@@ -148,106 +131,130 @@ public class BankController {
 			if (otp < 1000) {
 				otp += 1000;
 			}
-			model.addAttribute("otp", otp);
-			session.setAttribute("sesOTP", otp);
-			model.addAttribute("mssg", "Enter valid OTP");
-			return "checkingbalance";
+			model.addAttribute("message", "Enter valid OTP");
+			return "checkbalance";
 		}
 	}
 
-	@GetMapping("/debit")
-	public String debit() {
-		return "debitamount";
+	@GetMapping("/transfer")
+	public String transfer() {
+		return "transferamount";
 	}
 
-	@GetMapping("/performdebit")
-	public String transaction1(String accountnumber, String amount, Model model, HttpServletRequest req) {
-		HttpSession httpSession = req.getSession();
-		String senderActNo = (String) httpSession.getAttribute("loginInfoAct");
-		Customer senderCustomer = customerDAO.getDetailsByAccoutnumber(senderActNo);
-		double senderAmount = senderCustomer.getAmount();
-		double inputamount = Double.parseDouble(amount);
-		Customer receiverCustomer = customerDAO.getDetailsByAccoutnumber(accountnumber);
-		if (receiverCustomer != null) {
-			if (senderAmount >= inputamount) {
-				senderCustomer.setAmount(senderAmount - inputamount);
-				Customer customer1 = customerDAO.registration(senderCustomer);
-				receiverCustomer.setAmount(receiverCustomer.getAmount() + inputamount);
-				Customer customer2 = customerDAO.registration(receiverCustomer);
+	@PostMapping("/performtransfer")
+	public String performDebit(@RequestParam String accountNumber, @RequestParam String amount, Model model) {
+		Account account = (Account) model.getAttribute("account");
+		Account senderAccount = this.accountService.getDetailsByAccoutNumber(account.getAccountNumber());
+		double senderAmount = senderAccount.getAmount();
+		double inputAmount = Double.parseDouble(amount);
+		Account receiverAccount = this.accountService.getDetailsByAccoutNumber(accountNumber);
+		if (receiverAccount != null) {
+			if (senderAmount >= inputAmount) {
+				senderAccount.setAmount(senderAmount - inputAmount);
+				this.accountService.registration(senderAccount);
+				receiverAccount.setAmount(receiverAccount.getAmount() + inputAmount);
+				this.accountService.registration(receiverAccount);
 
-				Transaction t = new Transaction();
-				t.setCustomerid(senderCustomer.getId());
-				t.setTransactionamount(inputamount);
-				t.setTransactiondate(Date.valueOf(LocalDate.now()));
-				t.setTransactiontime(String.valueOf(Time.valueOf(LocalTime.now())));
-				t.setTransactiontype("Debit");
+				Transaction senderTransaction = new Transaction();
+				senderTransaction.setCustomerId(senderAccount.getId());
+				senderTransaction.setTransactionAmount(inputAmount);
+				senderTransaction.setTransactionDate(Date.valueOf(LocalDate.now()));
+				senderTransaction.setTransactionTime(String.valueOf(Time.valueOf(LocalTime.now())));
+				senderTransaction.setTransactionType("Debit");
+				this.transactionService.saveTransaction(senderTransaction);
+				
+				Transaction recieverTransaction = new Transaction();
+				recieverTransaction.setCustomerId(receiverAccount.getId());
+				recieverTransaction.setTransactionAmount(inputAmount);
+				recieverTransaction.setTransactionDate(Date.valueOf(LocalDate.now()));
+				recieverTransaction.setTransactionTime(String.valueOf(Time.valueOf(LocalTime.now())));
+				recieverTransaction.setTransactionType("Credit");
 
-				Transaction transaction = transactionDAO.saveTransaction(t);
-				model.addAttribute("c1act", "Amount Successfully Transferred");
+				this.transactionService.saveTransaction(recieverTransaction);
+				model.addAttribute("message", "Amount Successfully Transferred");
 				return "userinfo";
 			} else {
-				model.addAttribute("c1act", "Invalid Amount");
+				model.addAttribute("message", "Invalid Amount");
 				return "userinfo";
 			}
 		} else {
-			model.addAttribute("c1act", "Invalid Account Number");
+			model.addAttribute("message", "Invalid Account Number");
 			return "userinfo";
 		}
 	}
 
-	@RequestMapping("/credit")
+	@GetMapping("/credit")
 	public String credit() {
 		return "creditamount";
 	}
 
-	@RequestMapping("/performcredit")
-	public String transaction2(String acctNo, String amount, Model model, HttpServletRequest req) {
-		HttpSession httpSession = req.getSession();
-		int id = (int) httpSession.getAttribute("loginInfoid");
-		double inputamount = Double.parseDouble(amount);
-		Customer customer = customerDAO.getDetailsByAccoutnumber(acctNo);
-		if (customer != null) {
-			if (inputamount > 0) {
-				customer.setAmount(customer.getAmount() + inputamount);
-				Customer cust = customerDAO.registration(customer);
+	@PostMapping("/performcredit")
+	public String performCredit(@RequestParam String accountNumber,@RequestParam String amount, Model model) {
+		Account account = (Account) model.getAttribute("account");
+		double inputAmount = Double.parseDouble(amount);
+		this.accountService.getDetailsByAccoutNumber(accountNumber);
+		if (account != null) {
+			if (inputAmount > 0) {
+				account.setAmount(account.getAmount() + inputAmount);
+				this.accountService.registration(account);
 
-				Transaction t = new Transaction();
-				t.setCustomerid(id);
-				t.setTransactionamount(inputamount);
-				t.setTransactiondate(Date.valueOf(LocalDate.now()));
-				t.setTransactiontime(String.valueOf(Time.valueOf(LocalTime.now())));
-				t.setTransactiontype("Credit");
+				Transaction transaction = new Transaction();
+				transaction.setCustomerId(account.getId());
+				transaction.setTransactionAmount(inputAmount);
+				transaction.setTransactionDate(Date.valueOf(LocalDate.now()));
+				transaction.setTransactionTime(String.valueOf(Time.valueOf(LocalTime.now())));
+				transaction.setTransactionType("Credit");
 
-				Transaction transaction = transactionDAO.saveTransaction(t);
-				model.addAttribute("c1act", "Amount Successfully Credited");
+				this.transactionService.saveTransaction(transaction);
+				model.addAttribute("message", "Amount Successfully Credited");
 				return "userinfo";
 			} else {
-				model.addAttribute("c1act", "Invalid Amount");
+				model.addAttribute("message", "Invalid Amount");
 				return "userinfo";
 			}
 		} else {
-			model.addAttribute("c1act", "Invalid Account Number");
+			model.addAttribute("message", "Invalid Account Number");
 			return "userinfo";
 		}
 	}
 
 	@GetMapping("/statement")
-	public String statement() {
+	public String statement(Model model) {
 		return "Statementpage";
 	}
 
-	@RequestMapping("/statementcheck")
-	public String statementcheck(Date fromdate, Date todate, HttpServletRequest req, Model model) {
-		HttpSession httpSession = req.getSession();
-		int id = (int) httpSession.getAttribute("loginInfoid");
-		List<Transaction> list = transactionDAO.findbyIdandTransactionDetails(id, fromdate, todate);
+	@GetMapping("/statementcheck")
+	public String showStatementCheckPage(@RequestParam Date fromDate,@RequestParam Date toDate, Model model) {
+		Account account = (Account) model.getAttribute("account");
+		List<Transaction> list = this.transactionService.findbyIdandTransactionDetails(account.getId(), fromDate, toDate);
 		if (list.isEmpty()) {
-			model.addAttribute("msgg", "No Statements Found");
+			model.addAttribute("message", "No Statements Found");
 			return "statement";
 		} else {
-			model.addAttribute("listofstatements", list);
+			model.addAttribute("listOfStatements", list);
 			return "statement";
 		}
-
+	}
+	
+	@GetMapping("/updateprofile")
+	public String showUpdateProfilePage(Model model) {
+		return "updateprofile";
+	}
+	
+	@PostMapping("/processupdateprofile")
+	public String processUpdateProfile(@RequestParam String firstName, @RequestParam String lastName, @RequestParam Date dateOfBirth,@RequestParam String address , @RequestParam String mobileNumber, Model model) {
+		Account account = (Account) model.getAttribute("account");
+		account.setFirstName(firstName);
+		account.setLastName(lastName);
+		account.setDateOfBirth(dateOfBirth);
+		account.setAddress(address);
+		account.setMobileNumber(mobileNumber);
+		Account updatedAccount = this.accountService.registration(account);
+		if (updatedAccount != null) {
+			model.addAttribute("message", "Profile Updated Successfully");
+			return "homepage";
+		}
+		model.addAttribute("message", "Something Went Wrong");
+		return "updateprofile";
 	}
 }
