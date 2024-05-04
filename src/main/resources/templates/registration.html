@@ -3,27 +3,27 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Registration</title>
-<link href="./registration.css" rel="stylesheet">
+<link href="./css/registration.css" rel="stylesheet">
 </head>
 <body>
 	<div id="form">
 		<h1>Create an Account</h1>
-		<form action="registrationpage">
+		<form action="registrationpage" method="post">
 			<div>
-				<input class="input" placeholder="Enter Your First Name" id="first" name="firstname" /> 
-				<input class="input" placeholder="Enter Your Last Name" id="last" name="lastname" />
+				<input class="input" type="text" placeholder="Enter Your First Name" id="first" name="firstName" required /> 
+				<input class="input" type="text" placeholder="Enter Your Last Name" id="last" name="lastName" required />
 			</div>
 			<div>
-				<input class="input" type="number" placeholder="Enter Your Age" name="age" /> 
-				<input class="input" type="email" placeholder="Enter Your EmailID" name="emailid" />
+				<input class="input" type="number" placeholder="Enter Your Age" name="age" required /> 
+				<input class="input" type="email" placeholder="Enter Your Email Id" name="emailId" required />
 			</div>
 			<div>
 				<label id="amount">Enter Opening Balance</label> 
-				<input class="input" type="number" placeholder="Enter Amount" name="amount">
+				<input class="input" type="number" placeholder="Enter Amount" name="amount" required />
 			</div>
 			<div>
 				<label id="dob">Enter Your DOB</label> 
-				<input type="date" placeholder="Enter Date of Birth" name="dateofbirth">
+				<input type="date" placeholder="Enter Date of Birth" name="dateOfBirth" required />
 			</div>
 			<div>		
 				<label id="gender">Select Your Gender</label>
@@ -31,18 +31,18 @@
 				<input type="radio" name="gender" value="Female" />Female
 			</div>
 			<div>
-				<input class="input" type="number" placeholder="Enter Your Aadhar" name="aadhar">
-				<input class="input" placeholder="Enter Your Address" name="address">
+				<input class="input" type="number" placeholder="Enter Your Aadhar" name="aadhar" required />
+				<input class="input" type="text" placeholder="Enter Your Address" name="address" required />
 			</div>
 			<div>
-				<input class="input" placeholder="Enter Your Mobile Number" name="mobilenumber">
-				<input class="input" type="password" placeholder="Enter Your Password" name="password">
+				<input class="input" placeholder="Enter Your Mobile Number" name="mobileNumber" required />
+				<input class="input" type="password" placeholder="Enter Your Password" name="password" required />
 			</div>
 			<input class="btn" type="submit" value="Create Account" />
 			<input class="btn" type="reset" value="Cancel" /> 
 		</form>
-		<a href="/login">
-			<button class="btn">SIGN IN</button>
+		<a href="/">
+			<button class="btn">Sign In</button>
 		</a>
 	</div>
 </body>

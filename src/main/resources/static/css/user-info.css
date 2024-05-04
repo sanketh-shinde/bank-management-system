@@ -1,0 +1,21 @@
+@charset "ISO-8859-1";
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-family: 'Roboto';
+}
+
+p {
+	font-size: 20px;
+}

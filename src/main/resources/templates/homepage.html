@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-<link href="/home.css" rel="stylesheet">
+<link href="./css/home.css" rel="stylesheet">
 </head>
 <body>
-    <marquee behavior="alternate" direction="" ><p>Welcome To <span>Banking Application</span></p></marquee>
-    <h1 th:text="${'Welcome ' + user.firstname + ' ' + user.lastname}"></h1>
-    <h2 class="dash">DashBoard</h2>
-     <div class="name">
-          <a id="a1" href="checkbalance">CHECK BALANCE</a>
-          <a id="a1" href="debit">DEBIT AMOUNT</a>
-          <a id="a1" href="credit">CREDIT AMOUNT</a>
-          <a id="a1" href="statement">STATEMENTs TILL NOW</a>
+    <marquee behavior="alternate"><p>Welcome To Banking Application</p></marquee>
+     <div class="dashboard">
+	    <h1 th:text="${'Welcome ' + account.firstName + ' ' + account.lastName}"></h1>
+	    <h2>DashBoard</h2>
+          <div id="all-links">
+          	<a class="link" href="checkbalance">check balance</a>
+	        <a class="link" href="transfer">transfer amount</a>
+	        <a class="link" href="credit">credit amount</a>
+	        <a class="link" href="statement">statement's till now</a>
+	        <a class="link" href="updateprofile">edit profile</a>
+          </div>
      </div>
+     <p id="message" th:text="${message}"></p>
 </body>
 </html>

@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style type="text/css">
+	h1 {
+		font-family: 'Roboto';
+		text-transform:uppercase;
+		text-decoration: underline; 
+	}
+</style>
 </head>
 <body>
-<center>
-	<h1 style="font-family: cursive;text-transform:uppercase;text-decoration: underline;color: red;">Statements</h1>
-	<p th:text="${msgg}"></p>
+	<a href="home">Home</a>
+	<h1>Statements</h1>
+	<p th:text="${message}"></p>
 	<table border="1">
 	<tr>
 		<th>Transaction Id</th>
@@ -15,13 +22,12 @@
 		<th>Transaction Amount</th>
 		<th>Transaction Type</th>
 	</tr>
-	<tr th:each="stmt:${listofstatements}">
-	<td th:text="${stmt.transactionid}"></td>
-	<td th:text="${stmt.transactiondate}"></td>
-	<td th:text="${stmt.transactionamount}"></td>
-	<td th:text="${stmt.transactiontype}"></td>
+	<tr th:each="statement:${listOfStatements}">
+	<td th:text="${statement.transactionId}"></td>
+	<td th:text="${statement.transactionDate}"></td>
+	<td th:text="${statement.transactionAmount}"></td>
+	<td th:text="${statement.transactionType}"></td>
 	</tr>
 	</table>
-</center>
 </body>
 </html>

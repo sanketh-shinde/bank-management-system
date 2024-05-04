@@ -7,14 +7,13 @@
 }
 
 body {
-	background-image: url("/image/banking2.jpg");
+	background-image: url("/image/registration.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	font-family: 'Roboto';
 }
 
 h1 {
-	color: white;
 	text-transform: uppercase;
 }
 
@@ -37,11 +36,10 @@ h1 {
 	height: 40px;
 	width: 250px;
 	text-align: center;
-    margin-top: 4px;
-	margin-bottom: 12px;
+	margin-block: 10px;
 	background: transparent;
 	border-radius: 15px;
-	border: 1px solid white;
+	border: 1px solid black;
 }
 
 .input::placeholder {
@@ -57,10 +55,12 @@ h1 {
 
 label {
 	text-transform: uppercase;
-	color: white;
-	text-shadow: 1px 1px 2px black;
 	margin-right: 130px;
 	margin-bottom: 15px;
+}
+
+#amount {
+	margin: 15px;
 }
 
 input[type="date"] {

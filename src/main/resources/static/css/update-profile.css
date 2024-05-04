@@ -7,19 +7,18 @@
 }
 
 body {
-	background-image: url("/image/banking.jpg");
-	background-size:cover;
-	background-repeat:no-repeat;
-    font-size: 20px;
-    font-family: 'Roboto';
+	background-image: url("/image/registration.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	font-family: 'Roboto';
 }
 
-#message {
-	color: white;
+h1 {
+	text-transform: uppercase;
 }
 
 #form {
-    display: flex;
+	display: flex;
     flex-direction: column;
     align-items: center;
 	position: absolute;
@@ -33,19 +32,11 @@ body {
     backdrop-filter: blur(10px);
 }
 
-h1 {
-    font-size: 30px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    text-transform: capitalize;
-    color: white;
-    margin: 0 0 15px 0;
-}
-
 .input {
 	height: 40px;
 	width: 250px;
 	text-align: center;
-    margin-block: 5px;
+	margin-block: 10px;
 	background: transparent;
 	border-radius: 15px;
 	border: 1px solid black;
@@ -58,20 +49,32 @@ h1 {
 
 .input:focus {
 	background-color: white;
+	color: black;
 	font-size: 15px;
 }
 
 label {
 	text-transform: uppercase;
-	font-size: 30px;
-	color: white;
-	text-shadow: 1px 1px 2px black;
+	margin-right: 130px;
+	margin-bottom: 15px;
+}
+
+#amount {
+	margin: 15px;
+}
+
+input[type="date"] {
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid black;
+	margin-bottom: 10px;
 }
 
 .btn {
     height: 40px;
 	width: 250px;
 	background-color: #04AA6D;
+    margin-bottom: 10px;
     border-radius: 15px;
     color: white;
     border: none;
@@ -80,7 +83,7 @@ label {
 }
 
 .btn:hover {
-	background: #04aa1a;
+	background: #04aa1a ;
 	cursor: pointer;
 }
 

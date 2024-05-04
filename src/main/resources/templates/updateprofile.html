@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+<meta charset="ISO-8859-1">
+<title>Update</title>
+<link rel="stylesheet" href="./css/update-profile.css" />
+</head>
+<body>
+	<div id="form">
+		<h1>Update Profile</h1>
+		<form th:action="processupdateprofile" method="post">
+			<div>
+				<input class="input" placeholder="Enter Your First Name" id="first" name="firstName" th:value="${account.firstName}" /> 
+				<input class="input" placeholder="Enter Your Last Name" id="last" name="lastName" th:value="${account.lastName}" />
+			</div>
+			<div>
+				<label id="dob">Enter Your DOB</label> 
+				<input type="date" placeholder="Enter Date of Birth" name="dateOfBirth" th:value="${account.dateOfBirth}">
+			</div>
+			<div>
+				<input class="input" placeholder="Enter Your Address" name="address" th:value="${account.address}">
+				<input class="input" placeholder="Enter Your Mobile Number" name="mobileNumber" th:value="${account.mobileNumber}">
+			</div>
+			<input class="btn" type="submit" value="Update Account" />
+			<input class="btn" type="reset" value="Cancel" /> 
+		</form>
+			<p th:text="${message}"></p>
+			<a href="home">Home</a>
+	</div>
+</body>
+</html>

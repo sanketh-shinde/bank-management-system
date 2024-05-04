@@ -3,20 +3,16 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Check Balance</title>
-<link  href="./check-balance.css" rel="stylesheet"/>
+<link  href="./css/check-balance.css" rel="stylesheet"/>
 </head>
 <body>
-<div>
-    <h3>Checking Balance</h3>
-    <p>One Time Password(OTP): <span id="otp" th:text="${otp}"></span></p>
-
-  <form action="userchecking">
-    <input type="number" placeholder="Enter Your OTP" name="userotp"><br>
-    <input type="password" placeholder="Enter Your Password" name="userpassword"><br>
-    <input type="submit" value="Submit">
+  <form action="processcheckbalance" method="post" id="form">
+    <p th:text="'One Time Password(OTP):' + ${otp}"></p>
+    <input class="input" type="number" placeholder="Enter Your OTP" name="userOTP">
+    <input class="input" type="password" placeholder="Enter Your Password" name="userPassword">
+    <input class="btn" type="submit" value="Submit">
+	<p th:text="${message}"></p>
+	<a href="home">Home</a>
   </form>
-  <h4>For Home Page : <a href="homee">Click Here</a></h4>
-</div>
-<center><h2 th:text="${mssg}"></h2></center>
 </body>
 </html>
