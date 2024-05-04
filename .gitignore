@@ -35,3 +35,6 @@ build/
 ### maven ###
 .mvnw
 .mvnw.cmd
+
+## dbeaver ##
+.dbeaver/
