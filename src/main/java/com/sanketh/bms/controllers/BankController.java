@@ -145,12 +145,14 @@ public class BankController {
 	public String performDebit(@RequestParam String accountNumber, @RequestParam String amount, Model model) {
 		Account account = (Account) model.getAttribute("account");
 		Account senderAccount = this.accountService.getDetailsByAccoutNumber(account.getAccountNumber());
+		System.out.println(senderAccount);
 		double senderAmount = senderAccount.getAmount();
 		double inputAmount = Double.parseDouble(amount);
 		Account receiverAccount = this.accountService.getDetailsByAccoutNumber(accountNumber);
 		if (receiverAccount != null) {
 			if (senderAmount >= inputAmount) {
 				senderAccount.setAmount(senderAmount - inputAmount);
+				account = senderAccount;
 				this.accountService.registration(senderAccount);
 				receiverAccount.setAmount(receiverAccount.getAmount() + inputAmount);
 				this.accountService.registration(receiverAccount);
@@ -172,6 +174,7 @@ public class BankController {
 
 				this.transactionService.saveTransaction(recieverTransaction);
 				model.addAttribute("message", "Amount Successfully Transferred");
+				model.addAttribute("account", account);
 				return "userinfo";
 			} else {
 				model.addAttribute("message", "Invalid Amount");
@@ -184,7 +187,7 @@ public class BankController {
 	}
 
 	@GetMapping("/credit")
-	public String credit() {
+	public String credit(Model model) {
 		return "creditamount";
 	}
 

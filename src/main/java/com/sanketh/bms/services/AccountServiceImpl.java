@@ -10,7 +10,7 @@ import com.sanketh.bms.repository.AccountRepository;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-	AccountRepository accountRepository;
+	private AccountRepository accountRepository;
 	
 	public AccountServiceImpl(AccountRepository accountRepository) {
 		this.accountRepository = accountRepository;

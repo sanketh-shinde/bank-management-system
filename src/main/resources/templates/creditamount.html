@@ -9,7 +9,7 @@
 	<form action="performcredit" method="post" id="form">
 		<h1>Credit Amount</h1>
 		<label>Enter Your Account Number</label>
-		<input class="input" placeholder="Enter Your Account Number" name="accountNumber" required>
+		<input class="input" placeholder="Enter Your Account Number" name="accountNumber" th:value="${account.accountNumber}" required>
 		<label>Enter Amount</label>
 		<input class="input" placeholder="Enter the Amount" name="amount" required>
 		<input class="btn" type="submit" value="Credit">
